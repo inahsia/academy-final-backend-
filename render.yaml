@@ -3,9 +3,12 @@ services:
   - type: web
     name: redball-cricket-backend
     env: python
-    rootDir: backend
+    region: oregon
+    plan: free
+    rootDir: ./backend
     buildCommand: pip install -r requirements.txt && python manage.py collectstatic --no-input && python manage.py migrate
     startCommand: gunicorn redball_academy.wsgi:application
+    pythonVersion: "3.11.10"
     envVars:
       - key: SECRET_KEY
         generateValue: true
@@ -28,9 +31,8 @@ services:
       - key: DEFAULT_FROM_EMAIL
         sync: false
 
-  # PostgreSQL Database
-  - type: pserv
-    name: redball-cricket-db
-    env: docker
+databases:
+  - name: redball-cricket-db
+    databaseName: redball_cricket_db
+    user: redball_cricket_db_user
     plan: free
-    ipAllowList: []
